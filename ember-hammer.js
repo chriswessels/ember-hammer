@@ -1,0 +1,114 @@
+/**
+* ember-hammer
+* `Ember.View.reopen` is wrapped in an anonymous function to cache ember-hammer input dependencies in localised formal parameteres.
+* @module ember-hammer
+* @author Chris Wessels (https://github.com/chriswessels)
+* @url https://github.com/chriswessels/ember-hammer
+*/
+(function (window, Ember, Hammer, options, undefined) {
+  Ember.View.reopen({
+    /**
+    * @property _hammerInstance
+    * @type Hammer.Instance
+    * @private
+    * @default null
+    */
+    _hammerInstance: null,
+    /**
+    * This function will ensure that `_hammerInstance` is populated with an instance of Hammer for `this.get('element')`.
+    * The instance is cached and is only set if `this.gestures` is truthy. This means an instance of Hammer will only
+    * be created if gesture callbacks have been specified for the view in the `gestures` object.
+    * @method _setupHammer
+    * @private
+    */
+    _setupHammer: function () {
+      if (this.get('gestures') && !this.get('_hammerInstance')) {
+        this.set('_hammerInstance', Hammer(this.get('element')));
+      }
+    },
+    /**
+    * This function will ensure that `_hammerInstance` has been populated by calling `this._setupHammer`.
+    * It then iterates over the keys in the `gestures` object and attaches a glue function to the relevant
+    * event using `hammer_instance.on` that changes the callback context (`this`) to the View object
+    * for each of the callbacks specified.
+    * Gesture events will naturally bubble up the DOM tree, so if you want to cancel bubbling in your callback,
+    * just return `false`.
+    * The `event` argument passed into the callbacks you specify in the `gestures` object is provided by Hammer.
+    * @method _setupGestures
+    * @private
+    */
+    _setupGestures: function () {
+      this._setupHammer();
+      var gestures, events, hammer, self;
+      self = this;
+      gestures = this.get('gestures');
+      if (gestures) {
+        events = Object.keys(gestures);
+        hammer = this.get('_hammerInstance');
+
+        Ember.$.each(events, function (index, value) {
+          hammer.on(value.toLowerCase(), function (event) {
+            var output = self.gestures[value].apply(self, [].slice.call(arguments));
+            if (output === false) {
+              event.stopPropagation();
+            }
+            return output;
+          });
+        });
+      }
+    },
+    /**
+    * This will nullify the Hammer instance for the view.
+    * @method _teardownGestures
+    * @private
+    */
+    _teardownGestures: function () {
+      this.set('_hammerInstance', null);
+    },
+    /**
+    * This function is attached to the `didInsertElement` view event that is fired.
+    * It will call `this._setupGestures` to initialise gestural behaviour for the view upon insertion into the DOM.
+    * @method _onDidInsertElement
+    * @private
+    */
+    _onDidInsertElement: Ember.on('didInsertElement', function () {
+      this._setupGestures();
+      return this._super([].slice.call(arguments));
+    }),
+    /**
+    * This function is attached to the `willDestroy` view event that is fired.
+    * @method _onWillDestroy
+    * @private
+    */
+    _onWillDestroy: Ember.on('willDestroy', function () {
+      this._teardownGestures();
+      return this._super([].slice.call(arguments));
+    }),
+    /**
+    * This function is observes the `gestures` property on the view.
+    * Under normal circumstances `gestures` will never change, so this observer
+    * is never fired. It does however ensure that if the `gestures` object is
+    * patched, gestural behaviour is updated.
+    * @method _onWillDestroy
+    * @private
+    */
+    _observesGestures: Ember.observer('gestures', function () {
+      this._teardownGestures();
+      this._setupGestures();
+    }),
+    /**
+    * This property is the public interface for defining gestural behaviour for a given view.
+    * @example
+    *     App.SomeView = Ember.View.extend({
+    *       gestures: {
+    *         swipeLeft: function (event) {
+    *           // do something like send an event down the controller/route chain
+    *           return false; // return `false` to stop bubbling
+    *         }
+    *       }
+    *     });
+    * @property gestures
+    */
+    gestures: null
+  });
+})(window, Ember, Hammer);
