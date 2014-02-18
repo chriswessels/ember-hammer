@@ -20,10 +20,16 @@
     * be created if gesture callbacks have been specified for the view in the `gestures` object.
     * @method _setupHammer
     * @private
+    *
+    * @param {object} options Options with which to initialize Hammer (optional: default is an empty object)
     */
-    _setupHammer: function () {
+    _setupHammer: function (options) {
+      if (Ember.isNone(options)) {
+        options = {};
+      }
+
       if (this.get('gestures') && !this.get('_hammerInstance')) {
-        this.set('_hammerInstance', Hammer(this.get('element')));
+        this.set('_hammerInstance', Hammer(this.get('element'), options));
       }
     },
     /**
@@ -38,8 +44,9 @@
     * @private
     */
     _setupGestures: function () {
-      this._setupHammer();
       var gestures, events, hammer, self;
+
+      this._setupHammer(this.get('gestures.options'));
       self = this;
       gestures = this.get('gestures');
       if (gestures) {
