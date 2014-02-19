@@ -4,8 +4,29 @@
 * @module ember-hammer
 * @author Chris Wessels (https://github.com/chriswessels)
 * @url https://github.com/chriswessels/ember-hammer
+* @license MIT
 */
-(function (window, Ember, Hammer, options, undefined) {
+(function (window, Ember, Hammer, globalOptions, undefined) {
+  var defaultOptions;
+  defaultOptions = {
+    hammerOptions: null,
+    ignoreEvents: ['touchmove', 'touchstart', 'touchend', 'touchcancel']
+  };
+  globalOptions = Ember.$.extend({}, defaultOptions, globalOptions || {});
+  Ember.EventDispatcher.reopen({
+    setup: function () {
+      var events = this.get('events'),
+          ignoreEvents = Ember.get(globalOptions, 'ignoreEvents');
+
+      Ember.$.each(ignoreEvents, function (index, value) {
+        events[value] = null;
+        delete events[value];
+      });
+      this.set('events', events);
+
+      return this._super([].slice.call(arguments));
+    }
+  });
   Ember.View.reopen({
     /**
     * @property _hammerInstance
@@ -27,9 +48,9 @@
       if (Ember.isNone(options)) {
         options = {};
       }
-
       if (this.get('gestures') && !this.get('_hammerInstance')) {
         this.set('_hammerInstance', Hammer(this.get('element'), options));
+
       }
     },
     /**
@@ -44,11 +65,17 @@
     * @private
     */
     _setupGestures: function () {
-      var gestures, events, hammer, self;
+      var gestures, events, hammer, self, hammerOptions;
 
-      this._setupHammer(this.get('gestures.options'));
       self = this;
       gestures = this.get('gestures');
+      hammerOptions = Ember.$.extend({},
+        Ember.get(globalOptions, 'hammerOptions') || {},
+        this.get('hammerOptions') || {}
+      );
+
+      this._setupHammer(hammerOptions);
+
       if (gestures) {
         events = Object.keys(gestures);
         hammer = this.get('_hammerInstance');
@@ -116,6 +143,17 @@
     *     });
     * @property gestures
     */
-    gestures: null
+    gestures: null,
+    /**
+    * This property allows you to pass view-specific options to Hammer.js.
+    * @example
+    *     App.SomeView = Ember.View.extend({
+    *       hammerOptions: {
+    *         swipe_velocity: 0.5
+    *       }
+    *     });
+    * @property hammerOptions
+    */
+    hammerOptions: null
   });
-})(window, Ember, Hammer);
+})(window, Ember, Hammer, emberHammerOptions || {});
