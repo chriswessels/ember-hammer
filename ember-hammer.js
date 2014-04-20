@@ -156,7 +156,7 @@
     */
     hammerOptions: null
   });
-})(window, Ember, Hammer, false || (typeof emberHammerOptions === 'undefined' ? false : emberHammerOptions));
+})(window, Ember, Hammer, (typeof emberHammerOptions === 'undefined' ? false : emberHammerOptions));
 if (typeof emberHammerOptions !== 'undefined') {
   emberHammerOptions = null;
   delete emberHammerOptions;
