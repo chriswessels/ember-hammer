@@ -1,14 +1,12 @@
 /**
 * ember-hammer
-* `Ember.View.reopen` is wrapped in an anonymous function to cache ember-hammer input dependencies in localised formal parameteres.
 * @module ember-hammer
 * @author Chris Wessels (https://github.com/chriswessels)
 * @url https://github.com/chriswessels/ember-hammer
 * @license MIT
 */
 (function (window, Ember, Hammer, globalOptions, undefined) {
-  var defaultOptions;
-  defaultOptions = {
+  var defaultOptions = {
     hammerOptions: null,
     ignoreEvents: ['touchmove', 'touchstart', 'touchend', 'touchcancel']
   };
@@ -24,7 +22,7 @@
       });
       this.set('events', events);
 
-      return this._super([].slice.call(arguments));
+      return this._super(Array.prototype.slice.call(arguments));
     }
   });
   Ember.View.reopen({
@@ -50,7 +48,6 @@
       }
       if (this.get('gestures') && !this.get('_hammerInstance')) {
         this.set('_hammerInstance', Hammer(this.get('element'), options));
-
       }
     },
     /**
@@ -82,7 +79,7 @@
 
         Ember.$.each(events, function (index, value) {
           hammer.on(value.toLowerCase(), function (event) {
-            var output = self.gestures[value].apply(self, [].slice.call(arguments));
+            var output = self.gestures[value].apply(self, Array.prototype.slice.call(arguments));
             if (output === false) {
               event.stopPropagation();
             }
@@ -107,7 +104,7 @@
     */
     _onDidInsertElement: Ember.on('didInsertElement', function () {
       this._setupGestures();
-      return this._super([].slice.call(arguments));
+      return this._super(Array.prototype.slice.call(arguments));
     }),
     /**
     * This function is attached to the `willDestroy` view event that is fired.
@@ -116,7 +113,7 @@
     */
     _onWillDestroy: Ember.on('willDestroy', function () {
       this._teardownGestures();
-      return this._super([].slice.call(arguments));
+      return this._super(Array.prototype.slice.call(arguments));
     }),
     /**
     * This function is observes the `gestures` property on the view.
