@@ -119,7 +119,10 @@
     * @private
     */
     _teardownGestures: function () {
-      this.get('_hammerInstance').dispose();
+      var hammer = this.get('_hammerInstance');
+      if (hammer && typeof hammer.dispose === "function") {
+        hammer.dispose();
+      }
       this.set('_hammerInstance', null);
     },
     /**
