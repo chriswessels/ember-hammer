@@ -1,14 +1,30 @@
 ember-hammer
 ============
-ember-hammer is a neat interface for defining [Hammer.js](https://github.com/EightMedia/hammer.js) gestural behaviour in your [Ember.js](http://www.emberjs.com) Views.
+ember-hammer is a neat interface for defining [Hammer.js](https://github.com/EightMedia/hammer.js) gestural behaviour in your [Ember.js](http://www.emberjs.com) Views. It is easy to use and lightweight.
+
+##Example
+
+    App.SomeView = Ember.View.extend({
+      hammerOptions: {
+        swipe_velocity: 0.5
+      },
+      gestures: {
+        swipeLeft: function (event) {
+          // do something like send an event down the controller/route chain
+          return false; // return `false` to stop bubbling
+        }
+      }
+    });
 
 ##Usage
 
-First, include the `ember-hammer.js` file into your asset delivery pipeline (ideally this should include minification, concatenation and gzipping). ember-hammer should be included prior to the code that initializes your Ember application.
+First, include the `ember-hammer.js` file into your asset delivery pipeline (ideally this should include minification, concatenation and gzipping). ember-hammer should be included prior to the code that initializes your Ember application (but before Ember.js itself).
+
+You can install ember-hammer via [Bower](http://bower.io/) using `bower install --save ember-hammer`.
 
 Next, define a `gestures` object in any view that you'd like to enable gestural behaviour for. Inside this object, define any Hammer.js gestural event as a key, with the callback function as the value.
 
-See example below.
+See example above.
 
 ###Passing options to Hammer.js
 
@@ -36,20 +52,6 @@ Assuming you'll be using ember-hammer (and therefore Hammer.js) to manage touch-
 This brings a significant performance benefit.
 
 You can modify this behaviour by setting `globalOptions.ignoreEvents` to an array of event names EventDispatcher shouldn't bind to.
-
-##Example
-
-    App.SomeView = Ember.View.extend({
-      hammerOptions: {
-        swipe_velocity: 0.5
-      },
-      gestures: {
-        swipeLeft: function (event) {
-          // do something like send an event down the controller/route chain
-          return false; // return `false` to stop bubbling
-        }
-      }
-    });
 
 ##License
 

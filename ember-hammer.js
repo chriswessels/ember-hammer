@@ -27,6 +27,31 @@
   });
   Ember.View.reopen({
     /**
+    * This property is the public interface for defining gestural behaviour for a given view.
+    * @example
+    *     App.SomeView = Ember.View.extend({
+    *       gestures: {
+    *         swipeLeft: function (event) {
+    *           // do something like send an event down the controller/route chain
+    *           return false; // return `false` to stop bubbling
+    *         }
+    *       }
+    *     });
+    * @property gestures
+    */
+    gestures: null,
+    /**
+    * This property allows you to pass view-specific options to Hammer.js.
+    * @example
+    *     App.SomeView = Ember.View.extend({
+    *       hammerOptions: {
+    *         swipe_velocity: 0.5
+    *       }
+    *     });
+    * @property hammerOptions
+    */
+    hammerOptions: null,
+    /**
     * @property _hammerInstance
     * @type Hammer.Instance
     * @private
@@ -89,11 +114,12 @@
       }
     },
     /**
-    * This will nullify the Hammer instance for the view.
+    * This will call `dispose` on the Hammer instance for the view and then nullify it.
     * @method _teardownGestures
     * @private
     */
     _teardownGestures: function () {
+      this.get('_hammerInstance').dispose();
       this.set('_hammerInstance', null);
     },
     /**
@@ -126,32 +152,7 @@
     _observesGestures: Ember.observer('gestures', function () {
       this._teardownGestures();
       this._setupGestures();
-    }),
-    /**
-    * This property is the public interface for defining gestural behaviour for a given view.
-    * @example
-    *     App.SomeView = Ember.View.extend({
-    *       gestures: {
-    *         swipeLeft: function (event) {
-    *           // do something like send an event down the controller/route chain
-    *           return false; // return `false` to stop bubbling
-    *         }
-    *       }
-    *     });
-    * @property gestures
-    */
-    gestures: null,
-    /**
-    * This property allows you to pass view-specific options to Hammer.js.
-    * @example
-    *     App.SomeView = Ember.View.extend({
-    *       hammerOptions: {
-    *         swipe_velocity: 0.5
-    *       }
-    *     });
-    * @property hammerOptions
-    */
-    hammerOptions: null
+    })
   });
 })(window, Ember, Hammer, (typeof emberHammerOptions === 'undefined' ? false : emberHammerOptions));
 if (typeof emberHammerOptions !== 'undefined') {
