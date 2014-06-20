@@ -4,6 +4,22 @@ ember-hammer is a neat interface for defining [Hammer.js](https://github.com/Eig
 
 ##Example
 
+    /* ES6 Modules Example */
+    import Ember from 'ember';
+
+    export default Ember.View.extend({
+      hammerOptions: {
+        swipe_velocity: 0.5
+      },
+      gestures: {
+        swipeLeft: function (event) {
+          // do something like send an event down the controller/route chain
+          return false; // return `false` to stop bubbling
+        }
+      }
+    });
+
+    /* Globals Example */
     App.SomeView = Ember.View.extend({
       hammerOptions: {
         swipe_velocity: 0.5
@@ -18,9 +34,25 @@ ember-hammer is a neat interface for defining [Hammer.js](https://github.com/Eig
 
 ##Usage
 
-First, include the `ember-hammer.js` file into your asset delivery pipeline (ideally this should include minification, concatenation and gzipping). ember-hammer should be included prior to the code that initializes your Ember application (but before Ember.js itself).
+###With ember-cli
 
-You can install ember-hammer via [Bower](http://bower.io/) using `bower install --save ember-hammer`.
+In your ember-cli project directory, run the following:
+
+    $ bower install --save hammerjs
+    $ bower install --save ember-hammer
+
+In your Brocfile.js, before `module.exports = app.toTree();`, add the following lines:
+
+    app.import('vendor/hammerjs/hammer.js');
+    app.import('vendor/ember-hammer/ember-hammer.js');
+
+That should be it. You'll now be able to define a `gestures` object in your views.
+
+###With globals
+
+First, include the `ember-hammer.js` file into your asset delivery pipeline (ideally this should include minification, concatenation and gzipping). ember-hammer should be included prior to the code that initializes your Ember application (but before Ember.js itself), but after the inclusion of Hammer.js.
+
+###Once included
 
 Next, define a `gestures` object in any view that you'd like to enable gestural behaviour for. Inside this object, define any Hammer.js gestural event as a key, with the callback function as the value.
 
