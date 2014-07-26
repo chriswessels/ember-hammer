@@ -2,6 +2,8 @@ ember-hammer
 ============
 ember-hammer is a neat interface for defining [Hammer.js](https://github.com/EightMedia/hammer.js) gestural behaviour in your [Ember.js](http://www.emberjs.com) Views. It is easy to use and lightweight.
 
+Note: ember-hammer is currently incompatible with Hammer.js 2.x, although everything works perfectly with Hammer.js 1.1.3. Pull requests welcome for Hammer.js 2.x support!
+
 ##Example
 
     /* ES6 Modules Example */
@@ -38,7 +40,7 @@ ember-hammer is a neat interface for defining [Hammer.js](https://github.com/Eig
 
 In your ember-cli project directory, run the following:
 
-    $ bower install --save hammerjs
+    $ bower install --save hammerjs#1.1.3
     $ bower install --save ember-hammer
 
 In your Brocfile.js, before `module.exports = app.toTree();`, add the following lines:
