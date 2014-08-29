@@ -106,7 +106,7 @@
           hammer.on(value.toLowerCase(), function (event) {
             var output = self.gestures[value].apply(self, Array.prototype.slice.call(arguments));
             if (output === false) {
-              event.stopPropagation();
+              event.srcEvent.stopPropagation();
             }
             return output;
           });
