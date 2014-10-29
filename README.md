@@ -64,7 +64,7 @@ See example above.
 
 Optionally, you can define an `hammerOptions` object inside your view to specify any view-specific options that should be passed into Hammer.js.
 
-If you'd like to set options for all instances of Hammer.js (applicable to all views), you can use `globalOptions.hammerOptions`. See the source.
+If you'd like to set options for all instances of Hammer.js (applicable to all views), you can use `emberHammerOptions.hammerOptions`. More information below.
 
 ###Callbacks
 
@@ -85,7 +85,24 @@ Assuming you'll be using ember-hammer (and therefore Hammer.js) to manage touch-
 
 This brings a significant performance benefit.
 
-You can modify this behaviour by setting `globalOptions.ignoreEvents` to an array of event names EventDispatcher shouldn't bind to.
+You can modify this behaviour by setting `emberHammerOptions.ignoreEvents` to an array of event names EventDispatcher shouldn't bind to.
+
+** If you are using ember-hammer with ember-fastclick, you will need to disable this behaviour by setting `emberHammerOptions.ignoreEvents` to an empty array. ** E.g. `window.emberHammerOptions = { ignoreEvents: [] };`
+
+###Setting emberHammerOptions (settings / global options)
+
+You can set the global options for ember-hammer by defining an object called `emberHammerOptions` on the window object. It is important that the object is defined **before** `ember-hammer.js` is loaded. A suitable place might be in an inline script tag in the head section of your document.
+
+Example:
+
+    window.emberHammerOptions = { 
+        ignoreEvents: ['touchmove', 'touchstart', 'touchend', 'touchcancel'],
+        hammerOptions: {
+            swipe_velocity: 0.5
+        }
+    };
+
+`emberHammerOptions.hammerOptions` will be passed into every instance of Hammer.js. You can override these options and set additional ones for a specific `Ember.View` by setting the `hammerOptions` key inside the view object.
 
 ##License
 
