@@ -153,7 +153,7 @@
     * Under normal circumstances `gestures` will never change, so this observer
     * is never fired. It does however ensure that if the `gestures` object is
     * patched, gestural behaviour is updated.
-    * @method _onWillDestroy
+    * @method _observesGestures
     * @private
     */
     _observesGestures: Ember.observer('gestures', function () {
