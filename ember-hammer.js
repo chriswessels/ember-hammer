@@ -9,23 +9,8 @@
   var defaultOptions = {
     hammerOptions: null,
     ignoreEvents: ['touchmove', 'touchstart', 'touchend', 'touchcancel']
-  };
-  globalOptions = Ember.$.extend({}, defaultOptions, globalOptions || {});
-  Ember.EventDispatcher.reopen({
-    setup: function () {
-      var events = this.get('events'),
-          ignoreEvents = Ember.get(globalOptions, 'ignoreEvents');
-
-      Ember.$.each(ignoreEvents, function (index, value) {
-        events[value] = null;
-        delete events[value];
-      });
-      this.set('events', events);
-
-      return this._super(Array.prototype.slice.call(arguments));
-    }
-  });
-  Ember.View.reopen({
+  },
+  viewProperties = componentProperties = {
     /**
     * This property is the public interface for defining gestural behaviour for a given view.
     * @example
@@ -160,7 +145,24 @@
       this._teardownGestures();
       this._setupGestures();
     })
+  };
+  globalOptions = Ember.$.extend({}, defaultOptions, globalOptions || {});
+  Ember.EventDispatcher.reopen({
+    setup: function () {
+      var events = this.get('events'),
+          ignoreEvents = Ember.get(globalOptions, 'ignoreEvents');
+
+      Ember.$.each(ignoreEvents, function (index, value) {
+        events[value] = null;
+        delete events[value];
+      });
+      this.set('events', events);
+
+      return this._super(Array.prototype.slice.call(arguments));
+    }
   });
+  Ember.View.reopen(viewProperties);
+  Ember.Component.reopen(componentProperties);
 })(window, Ember, Hammer, (typeof emberHammerOptions === 'undefined' ? false : emberHammerOptions));
 if (typeof emberHammerOptions !== 'undefined') {
   emberHammerOptions = null;
