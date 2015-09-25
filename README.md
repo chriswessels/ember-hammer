@@ -1,6 +1,6 @@
 ember-hammer
 ============
-ember-hammer is a neat interface for defining [Hammer.js](https://github.com/EightMedia/hammer.js) gestural behaviour in your [Ember.js](http://www.emberjs.com) Views. It is easy to use and lightweight.
+ember-hammer is a neat interface for defining [Hammer.js](https://github.com/EightMedia/hammer.js) gestural behaviour in your [Ember.js](http://www.emberjs.com) Components. It is easy to use and lightweight.
 
 Note: Hammer.js 2.x support is currently experimental.
 
@@ -10,7 +10,7 @@ Note: Hammer.js 2.x support is currently experimental.
 /* ES6 Modules Example */
 import Ember from 'ember';
 
-export default Ember.View.extend({
+export default Ember.Component.extend({
   hammerOptions: {
     swipe_velocity: 0.5
   },
@@ -23,7 +23,7 @@ export default Ember.View.extend({
 });
 
 /* Globals Example */
-App.SomeView = Ember.View.extend({
+App.SomeComponent = Ember.Component.extend({
   hammerOptions: {
     swipe_velocity: 0.5
   },
@@ -50,7 +50,7 @@ In your `Brocfile.js` (which should be in the root of your project directory), b
     app.import('bower_components/hammerjs/hammer.js');
     app.import('bower_components/ember-hammer/ember-hammer.js');
 
-That should be it. You'll now be able to define a `gestures` object in your views.
+That should be it. You'll now be able to define a `gestures` object in your components.
 
 ###With globals
 
@@ -58,7 +58,7 @@ First, include the `ember-hammer.js` file into your asset delivery pipeline (ide
 
 ###Once included
 
-Next, define a `gestures` object in any view that you'd like to enable gestural behaviour for. Inside this object, define any Hammer.js gestural event name as a key, with the callback function to be executed as the value.
+Next, define a `gestures` object in any component that you'd like to enable gestural behaviour for. Inside this object, define any Hammer.js gestural event name as a key, with the callback function to be executed as the value.
 
 ```javascript
 gestures: {
@@ -76,15 +76,15 @@ See the full example at the top of the README.
 
 ###Passing options to Hammer.js
 
-You can optionally define a `hammerOptions` object inside your view to specify any specific options that should be passed into Hammer.js. Options defined inside the `hammerOptions` object are specific to that view.
+You can optionally define a `hammerOptions` object inside your component to specify any specific options that should be passed into Hammer.js. Options defined inside the `hammerOptions` object are specific to that component.
 
-If you'd like to set global options for all instances of Hammer.js (applicable to all views), you can use `emberHammerOptions.hammerOptions`. See the section on emberHammerOptions below.
+If you'd like to set global options for all instances of Hammer.js (applicable to all components), you can use `emberHammerOptions.hammerOptions`. See the section on emberHammerOptions below.
 
 ###Event Callback Function
 
 The callback function is passed a single `event` argument, which is provided by Hammer.js.
 
-The `this` context of the callback will be set to the view object, so you can access any methods on the view that you may need to get the desired behaviour.
+The `this` context of the callback will be set to the component object, so you can access any methods on the component that you may need to get the desired behaviour.
 
 ###Event bubbling
 
@@ -122,7 +122,7 @@ window.emberHammerOptions = {
 };
 ```
 
-`emberHammerOptions.hammerOptions` will be passed into every instance of Hammer.js. You can override these options and set additional ones for a specific `Ember.View` by setting the `hammerOptions` key inside the view object. See the relevant section above for more information.
+`emberHammerOptions.hammerOptions` will be passed into every instance of Hammer.js. You can override these options and set additional ones for a specific `Ember.Component` by setting the `hammerOptions` key inside the component object. See the relevant section above for more information.
 
 ##License
 

@@ -10,11 +10,11 @@
     hammerOptions: null,
     ignoreEvents: ['touchmove', 'touchstart', 'touchend', 'touchcancel']
   },
-  viewProperties = componentProperties = {
+  componentProperties = {
     /**
-    * This property is the public interface for defining gestural behaviour for a given view.
+    * This property is the public interface for defining gestural behaviour for a given component.
     * @example
-    *     App.SomeView = Ember.View.extend({
+    *     App.SomeComponent = Ember.Component.extend({
     *       gestures: {
     *         swipeLeft: function (event) {
     *           // do something like send an event down the controller/route chain
@@ -26,9 +26,9 @@
     */
     gestures: null,
     /**
-    * This property allows you to pass view-specific options to Hammer.js.
+    * This property allows you to pass component-specific options to Hammer.js.
     * @example
-    *     App.SomeView = Ember.View.extend({
+    *     App.SomeComponent = Ember.Component.extend({
     *       hammerOptions: {
     *         swipe_velocity: 0.5
     *       }
@@ -46,7 +46,7 @@
     /**
     * This function will ensure that `_hammerInstance` is populated with an instance of Hammer for `this.get('element')`.
     * The instance is cached and is only set if `this.gestures` is truthy. This means an instance of Hammer will only
-    * be created if gesture callbacks have been specified for the view in the `gestures` object.
+    * be created if gesture callbacks have been specified for the component in the `gestures` object.
     * @method _setupHammer
     * @private
     *
@@ -63,7 +63,7 @@
     /**
     * This function will ensure that `_hammerInstance` has been populated by calling `this._setupHammer`.
     * It then iterates over the keys in the `gestures` object and attaches a glue function to the relevant
-    * event using `hammer_instance.on` that changes the callback context (`this`) to the View object
+    * event using `hammer_instance.on` that changes the callback context (`this`) to the Component object
     * for each of the callbacks specified.
     * Gesture events will naturally bubble up the DOM tree, so if you want to cancel bubbling in your callback,
     * just return `false`.
@@ -103,7 +103,7 @@
       }
     },
     /**
-    * This will call `dispose` on the Hammer instance for the view and then nullify it.
+    * This will call `dispose` on the Hammer instance for the component and then nullify it.
     * @method _teardownGestures
     * @private
     */
@@ -115,8 +115,8 @@
       this.set('_hammerInstance', null);
     },
     /**
-    * This function is attached to the `didInsertElement` view event that is fired.
-    * It will call `this._setupGestures` to initialise gestural behaviour for the view upon insertion into the DOM.
+    * This function is attached to the `didInsertElement` component event that is fired.
+    * It will call `this._setupGestures` to initialise gestural behaviour for the component upon insertion into the DOM.
     * @method _onDidInsertElement
     * @private
     */
@@ -125,7 +125,7 @@
       return this._super(Array.prototype.slice.call(arguments));
     }),
     /**
-    * This function is attached to the `willDestroy` view event that is fired.
+    * This function is attached to the `willDestroy` component event that is fired.
     * @method _onWillDestroy
     * @private
     */
@@ -134,7 +134,7 @@
       return this._super(Array.prototype.slice.call(arguments));
     }),
     /**
-    * This function is observes the `gestures` property on the view.
+    * This function is observes the `gestures` property on the component.
     * Under normal circumstances `gestures` will never change, so this observer
     * is never fired. It does however ensure that if the `gestures` object is
     * patched, gestural behaviour is updated.
@@ -161,7 +161,6 @@
       return this._super(Array.prototype.slice.call(arguments));
     }
   });
-  Ember.View.reopen(viewProperties);
   Ember.Component.reopen(componentProperties);
 })(window, Ember, Hammer, (typeof emberHammerOptions === 'undefined' ? false : emberHammerOptions));
 if (typeof emberHammerOptions !== 'undefined') {
