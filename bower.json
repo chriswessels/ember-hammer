@@ -1,12 +1,12 @@
 {
   "name": "ember-hammer",
   "main": "ember-hammer.js",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "homepage": "https://github.com/chriswessels/ember-hammer",
   "authors": [
     "Chris Wessels <undefined.za@gmail.com>"
   ],
-  "description": "ember-hammer is a neat interface for defining Hammer.js gestural behaviour in your Ember.js Views.",
+  "description": "ember-hammer is a neat interface for defining Hammer.js gestural behaviour in your Ember.js Components.",
   "moduleType": [
     "globals"
   ],
