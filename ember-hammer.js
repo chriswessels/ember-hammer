@@ -158,7 +158,7 @@
       });
       this.set('events', events);
 
-      return this._super(Array.prototype.slice.call(arguments));
+      return this._super.apply(this, Array.prototype.slice.call(arguments));
     }
   });
   Ember.Component.reopen(componentProperties);
