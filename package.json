@@ -1,0 +1,5 @@
+{
+  "name" : "ember-hammer",
+  "version": "1.0.3",
+  "description" : "ember-hammer is a neat interface for defining Hammer.js gestural behaviour in your Ember.js Views."
+}
