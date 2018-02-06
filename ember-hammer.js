@@ -76,7 +76,7 @@
 
       self = this;
       gestures = this.get('gestures');
-      hammerOptions = Ember.$.extend({},
+      hammerOptions = Object.assign({},
         Ember.get(globalOptions, 'hammerOptions') || {},
         this.get('hammerOptions') || {}
       );
@@ -87,7 +87,7 @@
         events = Object.keys(gestures);
         hammer = this.get('_hammerInstance');
 
-        Ember.$.each(events, function (index, value) {
+        events.forEach(function (index, value) {
           hammer.on(value.toLowerCase(), function (event) {
             var output = self.gestures[value].apply(self, Array.prototype.slice.call(arguments));
             if (output === false) {
@@ -146,13 +146,13 @@
       this._setupGestures();
     })
   };
-  globalOptions = Ember.$.extend({}, defaultOptions, globalOptions || {});
+  globalOptions = Object.assign({}, defaultOptions, globalOptions || {});
   Ember.EventDispatcher.reopen({
     setup: function () {
       var events = this.get('events'),
           ignoreEvents = Ember.get(globalOptions, 'ignoreEvents');
 
-      Ember.$.each(ignoreEvents, function (index, value) {
+      ignoreEvents && ignoreEvents.length && ignoreEvents.forEach(function (index, value) {
         events[value] = null;
         delete events[value];
       });
