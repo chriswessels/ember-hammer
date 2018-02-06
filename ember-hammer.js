@@ -87,7 +87,7 @@
         events = Object.keys(gestures);
         hammer = this.get('_hammerInstance');
 
-        events.forEach(function (index, value) {
+        events.forEach(function (value, index) {
           hammer.on(value.toLowerCase(), function (event) {
             var output = self.gestures[value].apply(self, Array.prototype.slice.call(arguments));
             if (output === false) {
@@ -152,7 +152,7 @@
       var events = this.get('events'),
           ignoreEvents = Ember.get(globalOptions, 'ignoreEvents');
 
-      ignoreEvents && ignoreEvents.length && ignoreEvents.forEach(function (index, value) {
+      ignoreEvents && ignoreEvents.length && ignoreEvents.forEach(function (value, index) {
         events[value] = null;
         delete events[value];
       });
