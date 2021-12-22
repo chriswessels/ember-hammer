@@ -32,8 +32,11 @@
     "test:ember-compatibility": "ember try:each"
   },
   "dependencies": {
+    "ember-auto-import": "^1.11.3",
     "ember-cli-babel": "^7.26.6",
-    "ember-cli-htmlbars": "^5.7.1"
+    "ember-cli-htmlbars": "^5.7.1",
+    "ember-modifier": "^3.0.0",
+    "hammerjs": "^2.0.8"
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
@@ -43,7 +46,6 @@
     "@glimmer/tracking": "^1.0.4",
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
-    "ember-auto-import": "^1.11.3",
     "ember-cli": "~3.28.1",
     "ember-cli-dependency-checker": "^3.2.0",
     "ember-cli-inject-live-reload": "^2.1.0",
