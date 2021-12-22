@@ -1,7 +1,7 @@
 ember-hammer
 ==============================================================================
 
-[Short description of the addon.]
+ember-hammer is a neat interface for defining [Hammer.js](https://github.com/EightMedia/hammer.js) gestural behaviour in your [Ember.js](http://www.emberjs.com) app. It is easy to use and lightweight.
 
 
 Compatibility
@@ -23,7 +23,17 @@ ember install ember-hammer
 Usage
 ------------------------------------------------------------------------------
 
-[Longer description of how to use the addon in apps.]
+```hbs
+<div class="box" {{on-gesture "swipe" this.onSwipe}}></div>
+
+<style>
+  .box {
+    width: 100px;
+    height: 100px;
+    background: red;
+  }
+</style>
+```
 
 
 Contributing
