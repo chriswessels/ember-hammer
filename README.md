@@ -1,7 +1,7 @@
 ember-hammer
 ==============================================================================
 
-ember-hammer is a neat interface for defining [Hammer.js](https://github.com/EightMedia/hammer.js) gestural behaviour in your [Ember.js](http://www.emberjs.com) app. It is easy to use and lightweight.
+ember-hammer is a neat interface for defining [Hammer.js](https://hammerjs.github.io/) gestural behaviour in your [Ember.js](http://www.emberjs.com) app. It is easy to use and lightweight.
 
 
 Compatibility
